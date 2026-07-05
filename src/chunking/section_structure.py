@@ -14,6 +14,7 @@ class Section:
     start_page: Optional[int] = None
     end_page: Optional[int] = None
     absorbed_sections: List[str] = field(default_factory=list)
+    absorbed_section_titles: List[str] = field(default_factory=list)
 
 @dataclass
 class DocumentSections:
@@ -44,7 +45,8 @@ class DocumentSections:
             if len(current.content) < min_chars and merged_sections:
                 # Mescla na seção anterior
                 previous = merged_sections[-1]
-                previous.content += current.content
+                previous.absorbed_sections.append(current.numbering)
+                previous.absorbed_section_titles.append(current.title)
                 previous.absorbed_sections.append(current.numbering)
                 
                 # Atualiza end_page se a atual tiver
