@@ -81,7 +81,7 @@ class DataEmbedding:
         self.output_file.parent.mkdir(parents=True, exist_ok=True)
         
         with self.output_file.open("w", encoding="utf-8") as out_f:
-            batch_size = 32
+            batch_size = 16
             for i in tqdm(range(0, len(chunks), batch_size)):
                 batch = chunks[i:i + batch_size]
                 texts = [
@@ -102,7 +102,7 @@ class DataEmbedding:
 
 if __name__ == "__main__":
     INPUT_CHUNKS_PATH = "../data/chunks/chunks.jsonl"
-    OUTPUT_EMBEDDINGS_PATH = "../data/embeddings/embeddings_bge_m3.jsonl"
+    OUTPUT_EMBEDDINGS_PATH = "../data/embeddings/embeddings.jsonl"
 
     logger.info(f"Starting the embedding pipeline...")
 
