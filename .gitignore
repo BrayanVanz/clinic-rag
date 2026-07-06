@@ -22,7 +22,6 @@ ehthumbs.db
 
 # --- Logs e Dados de IA ---
 *.log
-data/
 outputs/
 models/
 checkpoint/
