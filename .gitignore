@@ -1,2 +1,32 @@
-.devinignore
-venv
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+.env
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+.jupyter/
+
+# --- Docker & Ambientes ---
+.docker/
+*docker-compose.override.yml
+
+# --- Sistema Operacional ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# --- Logs e Dados de IA ---
+*.log
+data/
+outputs/
+models/
+checkpoint/
+
+# --- IDEs ---
+.vscode/
+.idea/

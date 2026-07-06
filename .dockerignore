@@ -1,0 +1,11 @@
+.git
+.gitignore
+.venv
+env
+venv
+*.log
+.ipynb_checkpoints
+docker/
+!docker/scripts/
+!docker/scripts/*.sh
+models/

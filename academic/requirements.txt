@@ -1,0 +1,46 @@
+# ================================
+# Ambiente Jupyter
+# ================================
+jupyterlab==4.1.5
+jupyterlab-lsp
+python-lsp-server
+catppuccin-jupyterlab
+ipywidgets
+httpx<0.28.0 
+
+# ================================
+# Coleta de dados
+# ================================
+requests           
+pypdf
+beautifulsoup4            
+
+# ================================
+# Orquestração do RAG
+# ================================
+langchain
+langchain-community
+langchain-core
+langchain-ollama
+langgraph
+
+# ================================
+# Modelos de IA e Embeddings
+# ================================
+langchain-huggingface
+sentence-transformers
+
+# ================================
+# Base vetorial local
+# ================================
+chromadb
+
+# ================================
+# Interface
+# ================================
+streamlit
+
+# ================================
+# Manipulação de dados e Utilitários
+# ================================
+tqdm
