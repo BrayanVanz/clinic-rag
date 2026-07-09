@@ -52,9 +52,17 @@ def retrieve_for_subquestions(
     return merged_documents
 
 
-def format_documents_for_prompt(documents: List[Document]) -> str:
+def format_documents_for_prompt(documents: List[Document], max_chars_per_chunk: int = 2000) -> str:
     """Formata os documentos recuperados em um bloco de texto legível para
-    o LLM, identificando claramente a fonte de cada trecho."""
+    o LLM, identificando claramente a fonte de cada trecho.
+
+    Cada trecho é truncado em ``max_chars_per_chunk`` caracteres: alguns
+    chunks de PCDT são bem maiores que a média (dezenas de milhares de
+    caracteres) e, sem esse limite, um único trecho grande pode consumir
+    sozinho boa parte da janela de contexto do LLM (`num_ctx`), causando
+    respostas cortadas no meio — especialmente com modelos menores/janelas
+    de contexto menores.
+    """
     if not documents:
         return "(Nenhum documento relevante foi encontrado na base de PCDT.)"
 
@@ -68,6 +76,10 @@ def format_documents_for_prompt(documents: List[Document]) -> str:
         if section_label:
             header += f" | Seção: {section_label}"
 
-        blocks.append(f"{header}\n{doc.page_content.strip()}")
+        content = doc.page_content.strip()
+        if len(content) > max_chars_per_chunk:
+            content = content[:max_chars_per_chunk].rstrip() + " [...]"
+
+        blocks.append(f"{header}\n{content}")
 
     return "\n\n".join(blocks)

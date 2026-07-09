@@ -27,7 +27,7 @@ VECTOR_STORE_METADATA_PATH = VECTOR_STORE_DIR / "metadata.jsonl"
 EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "bge-m3")
 
 # LLM (Qwen 3.5, servido via Ollama)
-LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "qwen3.5:2b")
+LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "qwen3.5:0.8b")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
 
 # Temperatura mantém-se em 0 para garantir respostas determinísticas
