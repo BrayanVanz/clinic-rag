@@ -432,9 +432,10 @@ preencher "Tipo de falha"):**
 
 | ID | Pergunta (resumo) | Tipo de falha | Causa provável | Gravidade (Baixa/Média/Alta/**CRÍTICA — alucinação**) | Ação corretiva sugerida |
 |----|--------------------|----------------|-----------------|:-----------------------------------------------------:|--------------------------|
-|    |                    |                |                 |                                                       |                          |
-|    |                    |                |                 |                                                       |                          |
-|    |                    |                |                 |                                                       |                          |
+| 5 | Dabigatrana 48h e idarucizumabe |Contexto relevante, mas incompleto|Alegou que o texto foi cortado e que o documento não citava o idarucizumabe (antídoto), informação contida no texto.|Alta|Refinar chunking|
+| 7 | Janela de tempo do alteplase |Contexto relevante, mas incompleto|Afirmou que o documento não definia um tempo limite para a alteplase|Alta|Refinar chunking|
+| 9 | Benzodiazepínicos em escorpionismo amazônico |Contexto irrelevante recuperado|Busca vetorial foi atraída pelo termo "diazepam"|Alta|Refinar a etapa de retrieval|
+| 12 |Critérios de suspensão de somatropina (Turner)| Recusa indevida |Falha em correlacionar os dados de hipopituitarismo com o protocolo da Síndrome de Turner.|Alta|Refinar o system prompt|
 ## 11. Otimização de Chunks
 
 Uma etapa de enriquecimento semântico foi introduzida no fluxo antes da segmentação final em chunks. Esse passo extrai os conceitos-chave de cada seção de forma automatizada, utilizando métodos de identificação de candidatos, ordenação local e filtros de IDF sobre todo o conjunto de documentos. Dessa forma, geramos um grupo de `semantic_entities` associado a cada chunk (mapeando, de forma dinâmica, expressões como *atraso no desenvolvimento neuropsicomotor*, *hiperventilação*, *aminobenzoato como substrato*, *doença hepática*, *quimioluminescência* ou *suspensão do gh*), agregando valor à representação do texto e melhorando o desempenho na recuperação de informações.
