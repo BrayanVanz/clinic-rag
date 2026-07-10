@@ -3,7 +3,7 @@
 | [Ismael Diogenys](#ismael-diogenys--chunking-e-otimização-de-chunking) | Chunking e Otimização de chunking|
 | [Brayan Vanz de Oliveira](#brayan-vanz-de-oliveira--) | |
 | [Maria Camila](#maria-camila--) | |
-| [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) | |
+| [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) |Ingestão e Detecção de respostas insatisfatórias|
 | [Carlos Alberto](#carlos-alberto--) | |
 | [Thiago de Sousa Carvalho](#thiago-de-sousa-carvalho--) | |
 
@@ -25,3 +25,9 @@ Além da validação estrutural, também realizei avaliações qualitativas sobr
 Com mais tempo, eu expandiria a etapa de avaliação utilizando métricas quantitativas específicas para Retrieval-Augmented Generation, como Recall@k, MRR (Mean Reciprocal Rank) e nDCG, comparando diferentes estratégias de chunking sobre um conjunto padronizado de perguntas clínicas. Também investigaria estratégias híbridas de chunking, combinando a estrutura hierárquica dos documentos com informações semânticas extraídas automaticamente do texto. Em um contexto clínico, considero que uma RAG pode ser considerada "boa o suficiente" quando demonstra, de forma consistente, alta capacidade de recuperar os trechos corretos para diferentes tipos de consultas, preservando o contexto necessário para apoiar respostas confiáveis e reduzindo significativamente a ocorrência de omissões ou recuperações irrelevantes.
 
 Para mais detalhes sobre minhas contribuições, acessar [README.md](academic/src/chunking/README.md).
+
+# Guilherme de Almeida Gama — Insgestão e Detecção de respostas insatisfatórias
+
+Fiquei responsável pela implementação da ingestão de documentos, que foi dividida em duas partes, a parte de scraping, responsável por baixar os documentos que serão utilizados como base de conhecimento para o RAG e armazena-los no diretório academic/data/raw , e a parte de ingestion, responsável por percorrer todos os arquivos em data/raw e extrair o texto página por página e os metadados associados (source, page e type) para posteriormente salva-los em um arquivo JSONL usado na parte de chunking. Também fiquei responsável pela detecção das respostas insatisfatórias, categorizando em tipos de falhas, causas prováveis, gravidade do erro e ações corretivas
+
+Para mais detalhes sobre minhas contribuições, acessar [README.md](academic/src/ingestion/README.md).
