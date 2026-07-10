@@ -26,6 +26,29 @@ def _extract_json_block(text: str) -> str:
         raise ValueError(f"Nenhum bloco JSON encontrado na saída do modelo: {text!r}")
     return match.group(0)
 
+def _unwrap_schema_echo(json_block: str) -> str:
+    """Modelos pequenos às vezes 'ecoam' o JSON schema (com as chaves
+    `properties`/`required`) em vez de gerar uma instância dele. Se isso
+    acontecer, extrai os valores reais de dentro de `properties`."""
+    import json as _json
+ 
+    try:
+        parsed = _json.loads(json_block)
+    except Exception:
+        return json_block
+ 
+    if isinstance(parsed, dict) and "properties" in parsed and isinstance(parsed["properties"], dict):
+        unwrapped = {
+            key: (value.get("default") if isinstance(value, dict) and "default" in value else value)
+            for key, value in parsed["properties"].items()
+        }
+        # Só usa a versão "desembrulhada" se ela realmente parecer uma
+        # instância válida (valores simples, não sub-schemas com "type").
+        if not any(isinstance(v, dict) and "type" in v for v in unwrapped.values()):
+            return _json.dumps(unwrapped, ensure_ascii=False)
+ 
+    return json_block
+
 
 def invoke_structured(
     llm,
@@ -42,21 +65,24 @@ def invoke_structured(
     """
     parser = PydanticOutputParser(pydantic_object=pydantic_model)
     variables = {**prompt_variables, "format_instructions": parser.get_format_instructions()}
-
-    chain = prompt | llm
-
+ 
+    schema = pydantic_model.model_json_schema()
+    structured_llm = llm.bind(format=schema)
+ 
+    chain = prompt | structured_llm
+ 
     raw_output = chain.invoke(variables)
     raw_text = raw_output.content if hasattr(raw_output, "content") else str(raw_output)
-
+ 
     try:
-        json_block = _extract_json_block(raw_text)
+        json_block = _unwrap_schema_echo(_extract_json_block(raw_text))
         return parser.parse(json_block)
     except Exception as first_error:
         logger.warning(
             f"Falha ao parsear saída estruturada ({pydantic_model.__name__}): "
             f"{first_error}. Tentando corrigir..."
         )
-
+ 
     # Segunda tentativa: pede explicitamente para corrigir e reenviar só o JSON.
     try:
         correction_prompt = (
@@ -65,13 +91,13 @@ def invoke_structured(
             f"Reenvie APENAS o JSON corrigido, seguindo este formato:\n"
             f"{parser.get_format_instructions()}"
         )
-        correction_output = llm.invoke(correction_prompt)
+        correction_output = structured_llm.invoke(correction_prompt)
         correction_text = (
             correction_output.content
             if hasattr(correction_output, "content")
             else str(correction_output)
         )
-        json_block = _extract_json_block(correction_text)
+        json_block = _unwrap_schema_echo(_extract_json_block(correction_text))
         return parser.parse(json_block)
     except Exception as second_error:
         logger.error(

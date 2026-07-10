@@ -5,7 +5,7 @@ import faiss
 import numpy as np
 
 
-BASE_DIR = Path(__file__).resolve().parents[2]
+BASE_DIR = Path(__file__).resolve().parents[3]
 
 EMBEDDINGS_PATH = BASE_DIR / "data" / "embeddings" / "embeddings.jsonl"
 OUTPUT_DIR = BASE_DIR / "data" / "embeddings"
