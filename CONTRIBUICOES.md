@@ -3,7 +3,7 @@
 | [Ismael Diogenys](#ismael-diogenys--chunking-e-otimização-de-chunking) | Chunking e Otimização de chunking|
 | [Brayan Vanz de Oliveira](#brayan-vanz-de-oliveira--) | Pipeline de RAG (orquestração, recuperação e geração de respostas) |
 | [Maria Camila](#maria-camila--) | |
-| [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) | |
+| [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) |Ingestão e Detecção de respostas insatisfatórias|
 | [Carlos Alberto](#carlos-alberto--) | |
 | [Thiago de Sousa Carvalho](#thiago-de-sousa-carvalho--) | |
 
@@ -26,6 +26,11 @@ Com mais tempo, eu expandiria a etapa de avaliação utilizando métricas quanti
 
 Para mais detalhes sobre minhas contribuições, acessar [README.md](academic/src/chunking/README.md).
 
+# Guilherme de Almeida Gama — Insgestão e Detecção de respostas insatisfatórias
+
+Fiquei responsável pela implementação da ingestão de documentos, que foi dividida em duas partes, a parte de scraping, responsável por baixar os documentos que serão utilizados como base de conhecimento para o RAG e armazena-los no diretório academic/data/raw , e a parte de ingestion, responsável por percorrer todos os arquivos em data/raw e extrair o texto página por página e os metadados associados (source, page e type) para posteriormente salva-los em um arquivo JSONL usado na parte de chunking. Também fiquei responsável pela detecção das respostas insatisfatórias, categorizando em tipos de falhas, causas prováveis, gravidade do erro e ações corretivas
+
+Para mais detalhes sobre minhas contribuições, acessar [README.md](academic/src/ingestion/README.md).
 # Brayan Vanz de Oliveira — Pipeline de RAG (orquestração, recuperação e geração de respostas)
  
 Durante o projeto, fui responsável pelo pacote `academic/src/rag/`, isto é, por toda a etapa de consulta do sistema: a partir da base vetorial já construída (índice FAISS e metadados dos chunks de PCDT, gerados pelo módulo de embedding), implementei o pipeline completo que recebe a pergunta do usuário, recupera os trechos relevantes e gera uma resposta em português ancorada exclusivamente nesses trechos.

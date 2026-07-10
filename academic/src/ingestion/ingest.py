@@ -2,8 +2,12 @@ import json
 from pathlib import Path
 import re
 import unicodedata
-
 from langchain_community.document_loaders import PyPDFLoader
+
+"""Rode este script para ingerir os PDFs dos datasets abaixo e gerar um arquivo JSONL de saída em academic/data/processed/ necessários para o chunking.
+Capaz de processas vários datasets, cada um com seu próprio diretório de entrada e arquivo de saída. 
+Cada PDF é processado página por página, e cada página é normalizada para remover excesso de espaços, acentos e cedilha. 
+A seção de referências é removida por ser irrelevante para a aplicação."""
 
 DATASETS = [
     {
@@ -154,8 +158,9 @@ def remove_references(document):
     return document
 
 
-# main
+# main - ingere todos os datasets definidos em DATASETS e infere o tipo de documento com base no nome do diretório de entrada.
 
+# percorre todos os datasets definidos em DATASETS e chama a função ingest_directory para cada um deles, passando o diretório de entrada, o arquivo de saída e o tipo de documento inferido com base no nome do diretório de entrada.
 for dataset in DATASETS:
     ingest_directory(
         dataset["input"],
