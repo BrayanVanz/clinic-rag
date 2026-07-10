@@ -26,7 +26,7 @@ Basta estar dentro da pasta `docker/scripts/` e rodar:
 bash setup.sh
 ```
 
-Esse único comando constrói as imagens, sobe os dois containers em segundo plano e já baixa o modelo de embeddings necessário no Ollama. Nenhum outro passo manual é necessário para preparar o ambiente.
+Esse único comando constrói as imagens, sobe os dois containers em segundo plano, baixa os dois modelos necessários no Ollama, e ao final mostra no terminal o endereço para acessar a interface. Nenhum outro passo manual é necessário para preparar o ambiente.
 
 ## 🧩 Como os dois serviços funcionam juntos
 
@@ -73,38 +73,47 @@ streamlit run academic/src/interface/app.py --server.port=8501 --server.address=
 echo "🚀 Setup successfully created!"
 ```
 
+O Streamlit já sobe automaticamente assim que o container inicia — não é mais necessário entrar manualmente para rodá-lo. Se precisar entrar no container só para depurar algo (ver arquivos, testar um comando isolado), isso continua disponível:
+
 ```bash
 docker exec -it ambient-llm bash
-streamlit run academic/src/interface/app.py --server.port=8501 --server.address=0.0.0.0
 ```
 
 ## 🚀 `setup.sh` — o que ele automatiza, passo a passo
 
 ```bash
 #!/bin/bash
+
 set -e
 
 echo "⚙️ Starting the Setup..."
 
-echo "🔓 Giving Permissions to entrypoint.sh & setup.sh.."
+echo "🔓 Giving Permissions to entrypoint.sh & setup.sh..."
 chmod +x ./entrypoint.sh
 
-echo "⬆️ Upping the Docker Image..."
+echo "⬆️ Upping the Docker Images..."
 cd .. ; docker compose up --build -d
 
 echo "⏳ Waiting for the Ollama container to be ready..."
-sleep 5
 
-echo "📥 Verifying and downloading the bge-m3 model (this may take time on the first run)..."
+sleep 5 
+
+echo "📥 Verifying and downloading the bge-m3 embedding model (this may take time on the first run)..."
 docker exec ollama ollama pull bge-m3
 
-echo "✅ All done! Get fun."
+echo "📥 Verifying and downloading the qwen3.5:4b chat model (this may take time on the first run)..."
+docker exec ollama ollama pull qwen3.5:4b
+
+echo "✅ All done! Have fun."
+echo "🌐 Access the interface at: http://localhost:8501"
 ```
 
 1. **Dá permissão de execução** ao `entrypoint.sh` (necessário caso o arquivo tenha perdido a permissão, por exemplo depois de um `git clone`).
 2. **Sobe os dois containers** (`ambient-llm` e `ollama`) em segundo plano (`-d`), reconstruindo a imagem se algo mudou (`--build`).
 3. **Espera 5 segundos** para dar tempo do container do Ollama terminar de inicializar antes de mandar comandos para ele.
-4. **Baixa o modelo `bge-m3`** dentro do container do Ollama, caso ele ainda não exista localmente — esse é o modelo de embeddings usado pelo ClinicRAG. Como o download fica salvo no volume `ollama_data`, isso só demora de verdade na primeira execução; nas próximas, o Ollama já reconhece que o modelo existe e pula o download.
+4. **Baixa o modelo `bge-m3`** dentro do container do Ollama, caso ele ainda não exista localmente — o modelo de embeddings usado pelo ClinicRAG.
+5. **Baixa o modelo `qwen3.5:4b`** dentro do container do Ollama, caso ele ainda não exista localmente — o modelo de chat/geração de respostas usado pelo ClinicRAG. Como o download dos dois modelos fica salvo no volume `ollama_data`, isso só demora de verdade na primeira execução; nas próximas, o Ollama já reconhece que os modelos existem e pula o download.
+6. **Mostra o endereço de acesso** no terminal (`http://localhost:8501`), para que fique claro exatamente onde abrir a interface assim que o setup terminar, sem precisar adivinhar a porta.
 
 ## 🔎 Comandos úteis para o dia a dia
 
@@ -153,7 +162,7 @@ Just be inside the `docker/scripts/` folder and run:
 bash setup.sh
 ```
 
-This single command builds the images, brings up both containers in the background, and already downloads the required embedding model into Ollama. No other manual step is needed to prepare the environment.
+This single command builds the images, brings up both containers in the background, downloads both required models into Ollama, and prints the address to access the interface at the end. No other manual step is needed to prepare the environment.
 
 ## 🧩 How the two services work together
 
@@ -200,38 +209,47 @@ streamlit run academic/src/interface/app.py --server.port=8501 --server.address=
 echo "🚀 Setup successfully created!"
 ```
 
+Streamlit now starts automatically as soon as the container boots — there's no longer a need to enter the container manually to run it. If you need to get inside just to debug something (inspect files, test an isolated command), that's still available:
+
 ```bash
 docker exec -it ambient-llm bash
-streamlit run academic/src/interface/app.py --server.port=8501 --server.address=0.0.0.0
 ```
 
 ## 🚀 `setup.sh` — what it automates, step by step
 
 ```bash
 #!/bin/bash
+
 set -e
 
 echo "⚙️ Starting the Setup..."
 
-echo "🔓 Giving Permissions to entrypoint.sh & setup.sh.."
+echo "🔓 Giving Permissions to entrypoint.sh & setup.sh..."
 chmod +x ./entrypoint.sh
 
-echo "⬆️ Upping the Docker Image..."
+echo "⬆️ Upping the Docker Images..."
 cd .. ; docker compose up --build -d
 
 echo "⏳ Waiting for the Ollama container to be ready..."
-sleep 5
 
-echo "📥 Verifying and downloading the bge-m3 model (this may take time on the first run)..."
+sleep 5 
+
+echo "📥 Verifying and downloading the bge-m3 embedding model (this may take time on the first run)..."
 docker exec ollama ollama pull bge-m3
 
-echo "✅ All done! Get fun."
+echo "📥 Verifying and downloading the qwen3.5:4b chat model (this may take time on the first run)..."
+docker exec ollama ollama pull qwen3.5:4b
+
+echo "✅ All done! Have fun."
+echo "🌐 Access the interface at: http://localhost:8501"
 ```
 
 1. **Grants execute permission** to `entrypoint.sh` (needed in case the file lost that permission, for example after a `git clone`).
 2. **Brings up both containers** (`ambient-llm` and `ollama`) in the background (`-d`), rebuilding the image if anything changed (`--build`).
 3. **Waits 5 seconds** to give the Ollama container time to finish initializing before sending commands to it.
-4. **Downloads the `bge-m3` model** inside the Ollama container, if it doesn't already exist locally — this is the embedding model used by ClinicRAG. Since the download is saved in the `ollama_data` volume, this only takes real time on the first run; on later runs, Ollama already recognizes the model exists and skips the download.
+4. **Downloads the `bge-m3` model** inside the Ollama container, if it doesn't already exist locally — the embedding model used by ClinicRAG.
+5. **Downloads the `qwen3.5:4b` model** inside the Ollama container, if it doesn't already exist locally — the chat/generation model used by ClinicRAG. Since both downloads are saved in the `ollama_data` volume, this only takes real time on the first run; on later runs, Ollama already recognizes the models exist and skips the download.
+6. **Prints the access address** to the terminal (`http://localhost:8501`), making it clear exactly where to open the interface as soon as setup finishes, with no need to guess the port.
 
 ## 🔎 Handy day-to-day commands
 

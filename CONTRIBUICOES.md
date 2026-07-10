@@ -4,7 +4,7 @@
 | [Brayan Vanz de Oliveira](#brayan-vanz-de-oliveira--) | Pipeline de RAG (orquestração, recuperação e geração de respostas) |
 | [Maria Camila](#maria-camila--) | |
 | [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) |Ingestão e Detecção de respostas insatisfatórias|
-| [Carlos Alberto](#carlos-alberto--) | |
+| [Carlos Alberto da Silva Neto](#carlos-alberto-da-silva-neto---embeddings--infraestrutura-docker) | Geração de Embeddings e Infraestrutura Docker |
 | [Thiago de Sousa Carvalho](#thiago-de-sousa-carvalho--) | |
 
 
@@ -44,3 +44,17 @@ Também dediquei bastante atenção à confiabilidade das saídas estruturadas d
 Com mais tempo, eu investiria em avaliação quantitativa do pipeline como um todo — não só da recuperação isoladamente, mas da cadeia completa (decomposição + recuperação + geração + reflexão) —, usando um conjunto padronizado de perguntas clínicas com respostas de referência para medir taxa de acerto, fidelidade ao contexto (faithfulness) e frequência de vereditos de baixa confiança. Também exploraria um reranqueamento dos chunks recuperados antes da geração (hoje a ordem é apenas a da recuperação por similaridade) e um cache para consultas repetidas, já que cada pergunta hoje dispara ao menos duas chamadas ao LLM (geração e reflexão), além das chamadas de decomposição. Em um contexto clínico, considero que uma RAG pode ser considerada "boa o suficiente" quando ela é tão criteriosa em admitir o que não sabe quanto em responder o que sabe — ou seja, quando a taxa de respostas fundamentadas é alta, mas principalmente quando os casos em que o contexto é insuficiente são sinalizados de forma confiável e transparente ao usuário, em vez de mascarados por uma resposta genérica ou parcialmente inventada.
  
 Para mais detalhes sobre minhas contribuições, acessar [README.md](academic/src/rag/README.md).
+
+---
+
+# Carlos Alberto da Silva Neto - Embeddings & Infraestrutura Docker
+
+Na realização do projeto RAG, eu fiz a parte de embeddings e a infraestrutura Docker. A parte de embeddings e a infraestrutura Docker se conectam diretamente com as competências de construir e avaliar, cada uma de um jeito diferente.
+
+Na infraestrutura Docker, o objetivo foi criar um nível de abstração alto o suficiente para que qualquer pessoa da squad conseguisse subir o ambiente inteiro sem entender os detalhes internos — bastando um único comando (`setup.sh`), sem precisar configurar um `venv`, instalar dependências manualmente ou se preocupar com versões de Python divergentes entre as máquinas de cada um. Isso isola completamente o ambiente do sistema operacional de quem está rodando o projeto, o que reduz drasticamente o clássico problema de "na minha máquina funciona" e torna o projeto reproduzível por qualquer integrante, em qualquer sistema operacional, com o mesmo resultado.
+
+Já na parte de embeddings, o trabalho de avaliação ficou mais explícito na escolha do modelo. Testei dois modelos de embedding multilíngues: `intfloat/multilingual-e5-large` e `BAAI/bge-m3`. Ambos lidam bem com múltiplos idiomas, o que era um requisito, já que os protocolos PCDT estão em português. A diferença crítica entre os dois apareceu na janela de contexto e na quantidade de tokens suportados — o `bge-m3` suporta uma janela bruscamente maior que o `e5-large`, o que é determinante para documentos clínicos longos, onde cortar um chunk pequeno demais pode separar uma informação do seu contexto necessário. O `e5-large`, por sua vez, é mais rápido justamente por causa dessa janela menor, mas isso exigiria manter os chunks bem menores para não estourar o limite do modelo, o que na prática significaria mais fragmentação da informação clínica. O `bge-m3` exige mais poder de processamento e é mais lento no geral, mas resolve esse problema com folga. Foi esse trade-off — velocidade contra fidelidade de contexto — que me levou a adotar o `BAAI/bge-m3` como modelo definitivo, mesmo sendo mais pesado, porque numa aplicação clínica a informação intacta pesa mais do que a velocidade de geração do embedding.
+
+Se tivesse mais tempo, provavelmente evoluiria para um modelo que entenda imagens, gráficos e diagramas, não só texto — muitos protocolos PCDT trazem fluxogramas e tabelas que hoje ficam fora do que o pipeline consegue processar, e um modelo multimodal capturaria essa informação também, em vez de descartá-la na etapa de ingestão. Para decidir se uma RAG está "boa o suficiente" num contexto clínico, o critério não pode ser só uma média de acerto — a taxa de erros graves (respostas clinicamente perigosas, não só imprecisas) precisa estar próxima de zero antes de considerar o sistema pronto, mesmo que isso signifique manter respostas mais conservadoras. Foi exatamente esse raciocínio que guiou a escolha do `bge-m3` no lugar do modelo mais rápido: prefiro um pipeline mais lento que preserva o contexto clínico completo a um mais ágil que corre risco de fragmentar informação relevante.
+
+Para mais informações sobre a infraestrutura Docker e a parte de embeddings, consulte os dois `README.md` correspondentes: [README de embeddings](./academic/src/embedding/processing_embeddings/README.md) e [README do Docker](./docker/README.md).
