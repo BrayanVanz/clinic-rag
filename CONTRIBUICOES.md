@@ -2,7 +2,7 @@
 |-----------|--------|
 | [Ismael Diogenys](#ismael-diogenys--chunking-e-otimização-de-chunking) | Chunking e Otimização de chunking|
 | [Brayan Vanz de Oliveira](#brayan-vanz-de-oliveira--) | Pipeline de RAG (orquestração, recuperação e geração de respostas) |
-| [Maria Camila](#maria-camila--) | |
+| [Maria Camila G. Guimarães](#maria-camila--interface-streamlit-e-avaliacao-llm-as-a-judge) | | Interface da aplicação (Streamlit) e Avaliação do sistema (LLM as a Judge) |
 | [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) |Ingestão e Detecção de respostas insatisfatórias|
 | [Carlos Alberto](#carlos-alberto--) | |
 | [Thiago de Sousa Carvalho](#thiago-de-sousa-carvalho--) | |
@@ -44,3 +44,16 @@ Também dediquei bastante atenção à confiabilidade das saídas estruturadas d
 Com mais tempo, eu investiria em avaliação quantitativa do pipeline como um todo — não só da recuperação isoladamente, mas da cadeia completa (decomposição + recuperação + geração + reflexão) —, usando um conjunto padronizado de perguntas clínicas com respostas de referência para medir taxa de acerto, fidelidade ao contexto (faithfulness) e frequência de vereditos de baixa confiança. Também exploraria um reranqueamento dos chunks recuperados antes da geração (hoje a ordem é apenas a da recuperação por similaridade) e um cache para consultas repetidas, já que cada pergunta hoje dispara ao menos duas chamadas ao LLM (geração e reflexão), além das chamadas de decomposição. Em um contexto clínico, considero que uma RAG pode ser considerada "boa o suficiente" quando ela é tão criteriosa em admitir o que não sabe quanto em responder o que sabe — ou seja, quando a taxa de respostas fundamentadas é alta, mas principalmente quando os casos em que o contexto é insuficiente são sinalizados de forma confiável e transparente ao usuário, em vez de mascarados por uma resposta genérica ou parcialmente inventada.
  
 Para mais detalhes sobre minhas contribuições, acessar [README.md](academic/src/rag/README.md).
+
+
+# Maria Camila G. Guimarães — Interface (Streamlit) e Avaliação (LLM as a Judge)
+
+Minha principal contribuição no projeto esteve relacionada à construção da interface da aplicação RAG utilizando Streamlit e à participação na avaliação do sistema por meio da abordagem LLM as a Judge. Na interface, desenvolvi a camada de interação com o usuário, permitindo o envio de perguntas, a visualização das respostas geradas e dos contextos recuperados pelo sistema. Essa atividade demonstra a competência de construção, pois envolveu a integração entre a interface e o pipeline do RAG, garantindo o funcionamento do fluxo entre entrada do usuário, recuperação dos documentos e geração da resposta.
+
+Também participei da etapa de avaliação das respostas geradas antes da otimização do processo de chunking, analisando critérios como fidelidade ao contexto recuperado, relevância da resposta e a nota atribuída pelo juiz. Nos testes realizados com 12 perguntas, foi possível identificar que algumas respostas apresentaram bom desempenho, enquanto outras evidenciaram limitações na recuperação de informações. Um dos casos mais insatisfatórios foi a pergunta relacionada aos benzodiazepínicos em escorpionismo amazônico, que recebeu classificação de fidelidade “Não”, relevância “Não” e nota 1 pelo juiz, indicando que a resposta gerada não estava adequadamente apoiada nos documentos recuperados.
+
+A análise dessas respostas mostrou que a estratégia inicial de chunking dificultava a recuperação de algumas informações relevantes. Após a otimização do processo de chunking, observou-se uma recuperação mais consistente dos trechos relacionados ao tema da pergunta, contribuindo para respostas mais completas e melhor fundamentadas.
+
+Além disso, sugeri a utilização do Git Flow como estratégia de organização do desenvolvimento do squad, auxiliando no controle das branches, separação das funcionalidades e integração das contribuições dos integrantes.
+
+Com mais tempo, ampliaria a avaliação utilizando métricas específicas para sistemas RAG, como Recall@k, Precision@k, MRR, Faithfulness, Context Recall e Answer Correctness, permitindo avaliar tanto a qualidade da recuperação quanto das respostas geradas. Considero que um sistema RAG está adequado para um contexto clínico quando recupera consistentemente documentos relevantes, produz respostas fiéis às evidências, apresenta baixa taxa de alucinações e obtém resultados satisfatórios nessas métricas, sempre servindo como apoio à decisão clínica, e não como substituto da avaliação do profissional de saúde.
