@@ -374,19 +374,20 @@ para validar a qualidade das respostas obtidas.
   de fidelidade + relevância combinadas.
 
 | ID | Pergunta (resumo) | Fidelidade (Sim/Parcial/Não) | Relevância (Sim/Parcial/Não) | Nota do Juiz (1-5) |
-|----|--------------------|------------------------------|-------------------------------|:------------------:|
-| 1  | Mecanismo patológico da DB | | | |
-| 2  | Sinais neonatais de DGH | | | |
-| 3  | Exames p/ arritmia e hipoglicemia no AVC | | | |
-| 4  | Monitorização glicemia/temperatura pós-trombólise | | | |
-| 5  | Dabigatrana 48h e idarucizumabe | | | |
-| 6  | Classificação da IA e mineralocorticoide | | | |
-| 7  | Janela de tempo do alteplase | | | |
-| 8  | Amostragem linfonodal mínima (cólon) | | | |
-| 9  | Benzodiazepínicos em escorpionismo amazônico | | | |
-| 10 | Causas congênitas x adquiridas de DGH | | | |
-| 11 | Tratamento medicamentoso da epilepsia | | | |
-| 12 | Critérios de suspensão de somatropina (Turner) | | | |
+| -- | ------------------------------------------------- | ---------------------------- | ---------------------------- | ------------------ |
+| 1  | Mecanismo patológico da DB                        | **Sim**                      | **Sim**                      | **5**              |
+| 2  | Sinais neonatais de DGH                            | **Parcial**                  | **Parcial**                  | **3**              |
+| 3  | Exames p/ arritmia e hipoglicemia no AVC           | **Sim**                      | **Sim**                      | **5**              |
+| 4  | Monitorização glicemia/temperatura pós-trombólise  | **Sim**                      | **Sim**                      | **5**              |
+| 5  | Dabigatrana 48h e idarucizumabe                    | **Não**                      | **Parcial**                  | **2**              |
+| 6  | Classificação da IA e mineralocorticoide           | **Sim**                      | **Sim**                      | **5**              |
+| 7  | Janela de tempo do alteplase                       | **Sim**                      | **Sim**                      | **5**              |
+| 8  | Amostragem linfonodal mínima (cólon)               | **Sim**                      | **Sim**                      | **5**              |
+| 9  | Benzodiazepínicos em escorpionismo amazônico       | **Não**                      | **Não**                      | **1**              |
+| 10 | Causas congênitas x adquiridas de DGH              | **Sim**                      | **Sim**                      | **5**              |
+| 11 | Tratamento medicamentoso da epilepsia              | **Parcial**                  | **Sim**                      | **4**              |
+| 12 | Critérios de suspensão de somatropina (Turner)     | **Não**                      | **Parcial**                  | **2**              |
+
 
 ### 9.1. Avaliação de Fidelidade e Relevância (após otimização de chunks)
 
