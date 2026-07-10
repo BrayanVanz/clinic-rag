@@ -2,7 +2,7 @@
 |-----------|--------|
 | [Ismael Diogenys](#ismael-diogenys--chunking-e-otimização-de-chunking) | Chunking e Otimização de chunking|
 | [Brayan Vanz de Oliveira](#brayan-vanz-de-oliveira--) | Pipeline de RAG (orquestração, recuperação e geração de respostas) |
-| [Maria Camila G. Guimarães](#maria-camila--interface-streamlit-e-avaliacao-llm-as-a-judge) | | Interface da aplicação (Streamlit) e Avaliação do sistema (LLM as a Judge) |
+| [Maria Camila G. Guimarães](#maria-camila-g-guimarães--interface-streamlit-e-avaliação-llm-as-a-judge) | Interface da aplicação (Streamlit) e Avaliação do sistema (LLM as a Judge) |
 | [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) |Ingestão e Detecção de respostas insatisfatórias|
 | [Carlos Alberto da Silva Neto](#carlos-alberto-da-silva-neto---embeddings--infraestrutura-docker) | Geração de Embeddings e Infraestrutura Docker |
 | [Thiago de Sousa Carvalho](#thiago-de-sousa-carvalho--) | |
@@ -70,3 +70,5 @@ A análise dessas respostas mostrou que a estratégia inicial de chunking dificu
 Além disso, sugeri a utilização do Git Flow como estratégia de organização do desenvolvimento do squad, auxiliando no controle das branches, separação das funcionalidades e integração das contribuições dos integrantes.
 
 Com mais tempo, ampliaria a avaliação utilizando métricas específicas para sistemas RAG, como Recall@k, Precision@k, MRR, Faithfulness, Context Recall e Answer Correctness, permitindo avaliar tanto a qualidade da recuperação quanto das respostas geradas. Considero que um sistema RAG está adequado para um contexto clínico quando recupera consistentemente documentos relevantes, produz respostas fiéis às evidências, apresenta baixa taxa de alucinações e obtém resultados satisfatórios nessas métricas, sempre servindo como apoio à decisão clínica, e não como substituto da avaliação do profissional de saúde.
+
+Para mais detalhes sobre minhas contribuições, acessar [README.md](academic/src/interface/README.md).
