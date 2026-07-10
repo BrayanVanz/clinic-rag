@@ -21,3 +21,4 @@ echo "📥 Verifying and downloading the qwen3.5:4b chat model (this may take ti
 docker exec ollama ollama pull qwen3.5:4b
 
 echo "✅ All done! Have fun."
+echo "🌐 Access the interface at: http://localhost:8501"
