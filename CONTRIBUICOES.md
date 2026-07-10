@@ -2,7 +2,7 @@
 |-----------|--------|
 | [Ismael Diogenys](#ismael-diogenys--chunking-e-otimização-de-chunking) | Chunking e Otimização de chunking|
 | [Brayan Vanz de Oliveira](#brayan-vanz-de-oliveira--) | Pipeline de RAG (orquestração, recuperação e geração de respostas) |
-| [Maria Camila](#maria-camila--) | |
+| [Maria Camila G. Guimarães](#maria-camila--interface-streamlit-e-avaliacao-llm-as-a-judge) | | Interface da aplicação (Streamlit) e Avaliação do sistema (LLM as a Judge) |
 | [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) |Ingestão e Detecção de respostas insatisfatórias|
 | [Carlos Alberto da Silva Neto](#carlos-alberto-da-silva-neto---embeddings--infraestrutura-docker) | Geração de Embeddings e Infraestrutura Docker |
 | [Thiago de Sousa Carvalho](#thiago-de-sousa-carvalho--) | |
@@ -58,3 +58,15 @@ Já na parte de embeddings, o trabalho de avaliação ficou mais explícito na e
 Se tivesse mais tempo, provavelmente evoluiria para um modelo que entenda imagens, gráficos e diagramas, não só texto — muitos protocolos PCDT trazem fluxogramas e tabelas que hoje ficam fora do que o pipeline consegue processar, e um modelo multimodal capturaria essa informação também, em vez de descartá-la na etapa de ingestão. Para decidir se uma RAG está "boa o suficiente" num contexto clínico, o critério não pode ser só uma média de acerto — a taxa de erros graves (respostas clinicamente perigosas, não só imprecisas) precisa estar próxima de zero antes de considerar o sistema pronto, mesmo que isso signifique manter respostas mais conservadoras. Foi exatamente esse raciocínio que guiou a escolha do `bge-m3` no lugar do modelo mais rápido: prefiro um pipeline mais lento que preserva o contexto clínico completo a um mais ágil que corre risco de fragmentar informação relevante.
 
 Para mais informações sobre a infraestrutura Docker e a parte de embeddings, consulte os dois `README.md` correspondentes: [README de embeddings](./academic/src/embedding/processing_embeddings/README.md) e [README do Docker](./docker/README.md).
+
+# Maria Camila G. Guimarães — Interface (Streamlit) e Avaliação (LLM as a Judge)
+
+Minha principal contribuição no projeto esteve relacionada à construção da interface da aplicação RAG utilizando Streamlit e à participação na avaliação do sistema por meio da abordagem LLM as a Judge. Na interface, desenvolvi a camada de interação com o usuário, permitindo o envio de perguntas, a visualização das respostas geradas e dos contextos recuperados pelo sistema. Essa atividade demonstra a competência de construção, pois envolveu a integração entre a interface e o pipeline do RAG, garantindo o funcionamento do fluxo entre entrada do usuário, recuperação dos documentos e geração da resposta.
+
+Também participei da etapa de avaliação das respostas geradas antes da otimização do processo de chunking, analisando critérios como fidelidade ao contexto recuperado, relevância da resposta e a nota atribuída pelo juiz. Nos testes realizados com 12 perguntas, foi possível identificar que algumas respostas apresentaram bom desempenho, enquanto outras evidenciaram limitações na recuperação de informações. Um dos casos mais insatisfatórios foi a pergunta relacionada aos benzodiazepínicos em escorpionismo amazônico, que recebeu classificação de fidelidade “Não”, relevância “Não” e nota 1 pelo juiz, indicando que a resposta gerada não estava adequadamente apoiada nos documentos recuperados.
+
+A análise dessas respostas mostrou que a estratégia inicial de chunking dificultava a recuperação de algumas informações relevantes. Após a otimização do processo de chunking, observou-se uma recuperação mais consistente dos trechos relacionados ao tema da pergunta, contribuindo para respostas mais completas e melhor fundamentadas.
+
+Além disso, sugeri a utilização do Git Flow como estratégia de organização do desenvolvimento do squad, auxiliando no controle das branches, separação das funcionalidades e integração das contribuições dos integrantes.
+
+Com mais tempo, ampliaria a avaliação utilizando métricas específicas para sistemas RAG, como Recall@k, Precision@k, MRR, Faithfulness, Context Recall e Answer Correctness, permitindo avaliar tanto a qualidade da recuperação quanto das respostas geradas. Considero que um sistema RAG está adequado para um contexto clínico quando recupera consistentemente documentos relevantes, produz respostas fiéis às evidências, apresenta baixa taxa de alucinações e obtém resultados satisfatórios nessas métricas, sempre servindo como apoio à decisão clínica, e não como substituto da avaliação do profissional de saúde.
