@@ -5,7 +5,7 @@
 | [Maria Camila G. Guimarães](#maria-camila--interface-streamlit-e-avaliacao-llm-as-a-judge) | | Interface da aplicação (Streamlit) e Avaliação do sistema (LLM as a Judge) |
 | [Guilherme de Almeida Gama](#guilherme-de-almeida-gama--) |Ingestão e Detecção de respostas insatisfatórias|
 | [Carlos Alberto da Silva Neto](#carlos-alberto-da-silva-neto---embeddings--infraestrutura-docker) | Geração de Embeddings e Infraestrutura Docker |
-| [Thiago de Sousa Carvalho](#thiago-de-sousa-carvalho--) | |
+| [Thiago de Sousa Carvalho](#thiago-de-sousa-carvalho--) (#thiago--base-vetorial-e-avaliacao-llm-as-a-judge) | | IMplementação da base vetorial e Avaliação do sistema (LLM as a Judge)|
 
 
 
